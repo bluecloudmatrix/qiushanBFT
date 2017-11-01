@@ -9,13 +9,13 @@ LIB_PREFIX=${CUR_DIR}/.local/
 
 mkdir -p ${LIB_PREFIX}
 
-LIBCONFIG_VER=1.4.9
+LIBCONFIG_VER=1.7
 LIBCONFIG_NAME=libconfig-${LIBCONFIG_VER}
 
-LIBEVENT_VER=2.0.21
-LIBEVENT_NAME=libevent-release-${LIBEVENT_VER}-stable
+LIBEVENT_VER=2.1.8
+LIBEVENT_NAME=libevent-${LIBEVENT_VER}-stable
 
-BDB_VER=5.1.29
+BDB_VER=6.2.32
 BDB_NAME=db-${BDB_VER}
 
 if [ ! -d "dep-lib" ];then
@@ -24,7 +24,8 @@ fi
 cd dep-lib
 
 if [ ! -f "${LIBCONFIG_NAME}.tar.gz" ];then
-    wget http://www.hyperrealm.com/libconfig/${LIBCONFIG_NAME}.tar.gz
+    #wget http://www.hyperrealm.com/libconfig/${LIBCONFIG_NAME}.tar.gz
+    wget https://hyperrealm.github.io/libconfig/dist/${LIBCONFIG_NAME}.tar.gz
 fi
 
 if [ ! -d "${LIBCONFIG_NAME}" ];then
@@ -40,8 +41,9 @@ cd ..
 
 
 if [ ! -f "${LIBEVENT_NAME}.tar.gz" ];then
-    wget --no-check-certificate https://github.com/downloads/libevent/libevent/${LIBEVENT_NAME}.tar.gz
-    wget  https://codeload.github.com/libevent/libevent/tar.gz/release-${LIBEVENT_VER}-stable -O ${LIBEVENT_NAME}.tar.gz
+    #wget --no-check-certificate https://github.com/downloads/libevent/libevent/${LIBEVENT_NAME}.tar.gz
+    #wget  https://codeload.github.com/libevent/libevent/tar.gz/release-${LIBEVENT_VER}-stable -O ${LIBEVENT_NAME}.tar.gz
+    wget https://github.com/libevent/libevent/releases/download/release-${LIBEVENT_VER}-stable/${LIBEVENT_NAME}.tar.gz
 fi
 
 if [ ! -d "${LIBEVENT_NAME}" ];then
@@ -50,14 +52,16 @@ fi
 
 cd ${LIBEVENT_NAME}
 pwd
-./autogen.sh
+#./autogen.sh
 ./configure --prefix=${LIB_PREFIX}
 make;
+make verify;
 make install;
 cd ..
 
 
 if [ ! -f "${BDB_NAME}.tar.gz" ];then
+    #wget http://download.oracle.com/berkeley-db/${BDB_NAME}.tar.gz
     wget http://download.oracle.com/berkeley-db/${BDB_NAME}.tar.gz
 fi
 
